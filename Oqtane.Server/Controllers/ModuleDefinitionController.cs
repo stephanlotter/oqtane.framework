@@ -175,14 +175,14 @@ namespace Oqtane.Controllers
                 if (moduleDefinition.Template == "internal")
                 {
                     rootPath = Utilities.PathCombine(rootFolder.FullName,"\\");
-                    moduleDefinition.ModuleDefinitionName = moduleDefinition.Owner + "." + moduleDefinition.Name + "s, Oqtane.Client";
-                    moduleDefinition.ServerManagerType = moduleDefinition.Owner + "." + moduleDefinition.Name + "s.Manager." + moduleDefinition.Name + "Manager, Oqtane.Server";
+                    moduleDefinition.ModuleDefinitionName = moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ", Oqtane.Client";
+                    moduleDefinition.ServerManagerType = moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".Manager." + moduleDefinition.Name + "Manager, Oqtane.Server";
                 }
                 else
                 {
-                    rootPath = Utilities.PathCombine(rootFolder.Parent.FullName , moduleDefinition.Owner + "." + moduleDefinition.Name + "s","\\");
-                    moduleDefinition.ModuleDefinitionName = moduleDefinition.Owner + "." + moduleDefinition.Name + "s, " + moduleDefinition.Owner + "." + moduleDefinition.Name + "s.Client.Oqtane";                    
-                    moduleDefinition.ServerManagerType = moduleDefinition.Owner + "." + moduleDefinition.Name + "s.Manager." + moduleDefinition.Name + "Manager, " + moduleDefinition.Owner + "." + moduleDefinition.Name + "s.Server.Oqtane";
+                    rootPath = Utilities.PathCombine(rootFolder.Parent.FullName , moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name), "\\");
+                    moduleDefinition.ModuleDefinitionName = moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ", " + moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".Client.Oqtane";                    
+                    moduleDefinition.ServerManagerType = moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".Manager." + moduleDefinition.Name + "Manager, " + moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".Server.Oqtane";
                 }
 
                 ProcessTemplatesRecursively(new DirectoryInfo(templatePath), rootPath, rootFolder.Name, templatePath, moduleDefinition);
@@ -196,8 +196,8 @@ namespace Oqtane.Controllers
                 {
                     // add embedded resources to project
                     List<string> resources = new List<string>();
-                    resources.Add(Utilities.PathCombine("Modules", moduleDefinition.Owner + "." + moduleDefinition.Name + "s", "Scripts", moduleDefinition.Owner + "." + moduleDefinition.Name + "s.1.0.0.sql"));
-                    resources.Add(Utilities.PathCombine("Modules", moduleDefinition.Owner + "." + moduleDefinition.Name + "s", "Scripts", moduleDefinition.Owner + "." + moduleDefinition.Name + "s.Uninstall.sql"));
+                    resources.Add(Utilities.PathCombine("Modules", moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name), "Scripts", moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".1.0.0.sql"));
+                    resources.Add(Utilities.PathCombine("Modules", moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name), "Scripts", moduleDefinition.Owner + "." + Pluralization.Pluralize(moduleDefinition.Name) + ".Uninstall.sql"));
                     EmbedResourceFiles(Utilities.PathCombine(rootPath, "Oqtane.Server", "Oqtane.Server.csproj"), resources);
                 }
 
@@ -210,7 +210,7 @@ namespace Oqtane.Controllers
             // process folder
             string folderPath = Utilities.PathCombine(rootPath, current.FullName.Replace(templatePath, ""));
             folderPath = folderPath.Replace("[Owner]", moduleDefinition.Owner);
-            folderPath = folderPath.Replace("[Module]", moduleDefinition.Name);
+            folderPath = Pluralization.ReplaceModuleWithPlural(folderPath, moduleDefinition.Name); //folderPath.Replace("[Module]", moduleDefinition.Name);
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
@@ -224,11 +224,11 @@ namespace Oqtane.Controllers
                     // process file
                     string filePath = Path.Combine(folderPath, file.Name);
                     filePath = filePath.Replace("[Owner]", moduleDefinition.Owner);
-                    filePath = filePath.Replace("[Module]", moduleDefinition.Name);
+                    filePath = Pluralization.ReplaceModuleWithPlural(filePath, moduleDefinition.Name);//filePath.Replace("[Module]", moduleDefinition.Name);
 
                     string text = System.IO.File.ReadAllText(file.FullName);
                     text = text.Replace("[Owner]", moduleDefinition.Owner);
-                    text = text.Replace("[Module]", moduleDefinition.Name);
+                    text = Pluralization.ReplaceModuleWithPlural(text, moduleDefinition.Name);//text.Replace("[Module]", moduleDefinition.Name);
                     text = text.Replace("[Description]", moduleDefinition.Description);
                     text = text.Replace("[RootPath]", rootPath);
                     text = text.Replace("[RootFolder]", rootFolder);
