@@ -4,6 +4,14 @@ namespace Oqtane.Shared
 {
     public static class Pluralization 
     {
+        public static string ReplaceModuleWithPlural(string input, string singular)
+        {
+            var regexPlural = new Regex(@"\[Module\]s");
+            var regexSingular = new Regex(@"\[Module\]");
+            var match = regexPlural.Match(input);
+            return match.Success ? regexPlural.Replace(input, Pluralize(singular)) : regexSingular.Replace(input, singular);
+        }
+
         public static string Pluralize(string singular)
         {
             return
@@ -18,6 +26,7 @@ namespace Oqtane.Shared
         {
             return Regex.Replace(singular, @"y$", "ies");
         }
+
     }
 
 }
