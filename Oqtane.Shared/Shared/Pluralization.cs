@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Humanizer;
 
 namespace Oqtane.Shared
 {
@@ -24,14 +25,10 @@ namespace Oqtane.Shared
             return input;
         }
 
-        public static string Pluralize(string singular) =>
-            string.IsNullOrWhiteSpace(singular)
-                ? ""
-                : singular.EndsWith("y")
-                    ? PluralizeY(singular)
-                    : singular + "s";
-
-        private static string PluralizeY(string singular) => Regex.Replace(singular, @"y$", "ies");
+        public static string Pluralize(string singular)
+        {
+            return string.IsNullOrWhiteSpace(singular) ? string.Empty : singular.Pluralize();
+        }
     }
 
 }

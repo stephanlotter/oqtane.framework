@@ -7,7 +7,17 @@ namespace Oqtane.Test.Oqtane.Shared.Tests
     {
         [Theory]
         [InlineData("Blog", "Blogs")]
+        [InlineData("Box", "Boxes")]
+        [InlineData("Glass", "Glasses")]
+        [InlineData("Branch", "Branches")]
+        [InlineData("Eyelash", "Eyelashes")]
+        [InlineData("Quiz", "Quizzes")]
+        [InlineData("Turkey", "Turkeys")]
         [InlineData("Inventory", "Inventories")]
+        [InlineData("hoof", "hooves")]
+        [InlineData("knife", "knives")]
+        [InlineData("buffalo", "buffaloes")]
+        [InlineData("child", "children")]
         [InlineData("", "")]
         public void PluralizationTest(string singular, string expected)
         {

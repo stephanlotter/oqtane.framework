@@ -210,7 +210,7 @@ namespace Oqtane.Controllers
             // process folder
             string folderPath = Utilities.PathCombine(rootPath, current.FullName.Replace(templatePath, ""));
             folderPath = folderPath.Replace("[Owner]", moduleDefinition.Owner);
-            folderPath = Pluralization.ReplaceModuleWithPlural(folderPath, moduleDefinition.Name); //folderPath.Replace("[Module]", moduleDefinition.Name);
+            folderPath = Pluralization.ReplaceModuleWithPlural(folderPath, moduleDefinition.Name);
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);
@@ -224,11 +224,11 @@ namespace Oqtane.Controllers
                     // process file
                     string filePath = Path.Combine(folderPath, file.Name);
                     filePath = filePath.Replace("[Owner]", moduleDefinition.Owner);
-                    filePath = Pluralization.ReplaceModuleWithPlural(filePath, moduleDefinition.Name);//filePath.Replace("[Module]", moduleDefinition.Name);
+                    filePath = Pluralization.ReplaceModuleWithPlural(filePath, moduleDefinition.Name);
 
                     string text = System.IO.File.ReadAllText(file.FullName);
                     text = text.Replace("[Owner]", moduleDefinition.Owner);
-                    text = Pluralization.ReplaceModuleWithPlural(text, moduleDefinition.Name);//text.Replace("[Module]", moduleDefinition.Name);
+                    text = Pluralization.ReplaceModuleWithPlural(text, moduleDefinition.Name);
                     text = text.Replace("[Description]", moduleDefinition.Description);
                     text = text.Replace("[RootPath]", rootPath);
                     text = text.Replace("[RootFolder]", rootFolder);
